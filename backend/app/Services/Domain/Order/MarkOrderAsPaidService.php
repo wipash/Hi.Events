@@ -174,15 +174,25 @@ class MarkOrderAsPaidService
             ))
             ->findById($updatedOrder->getEventId());
 
-        /** @var AccountConfigurationDomainObject $config */
-        $config = $event->getAccount()->getConfiguration();
+        /** @var AccountConfigurationDomainObject|null $config */
+        $config = $event->getAccount()?->getConfiguration();
+
+        if ($config === null) {
+            return;
+        }
+
+        $applicationFee = $this->orderApplicationFeeCalculationService->calculateApplicationFee(
+            accountConfiguration: $config,
+            order: $updatedOrder,
+        );
+
+        if ($applicationFee === null) {
+            return;
+        }
 
         $this->orderApplicationFeeService->createOrderApplicationFee(
             orderId: $updatedOrder->getId(),
-            applicationFeeAmountMinorUnit: $this->orderApplicationFeeCalculationService->calculateApplicationFee(
-                accountConfiguration: $config,
-                order: $updatedOrder,
-            )?->netApplicationFee?->toMinorUnit() ?? 0,
+            applicationFeeAmountMinorUnit: $applicationFee->netApplicationFee->toMinorUnit(),
             orderApplicationFeeStatus: OrderApplicationFeeStatus::AWAITING_PAYMENT,
             paymentMethod: PaymentProviders::OFFLINE,
             currency: $updatedOrder->getCurrency(),

@@ -8,8 +8,9 @@ services:
             - "1234:80"
         volumes:
             - ./../../backend:/var/www/html
-            - ./../../backend/storage:/var/www/html/storage
-            - ./../../backend/bootstrap/cache:/var/www/html/bootstrap/cache
+            - backend-storage:/var/www/html/storage
+            - backend-cache:/var/www/html/bootstrap/cache
+            - backend-vendor:/var/www/html/vendor
         environment:
               APP_ENV: '${APP_ENV:-local}'
               APP_KEY: '${APP_KEY}'
@@ -159,14 +160,14 @@ services:
                 sleep 1;
             done;
             echo 'MinIO started, configuring mc...';
-            
+
             /usr/bin/mc alias set myminio $$MINIO_SERVER_URL $$MINIO_ROOT_USER $$MINIO_ROOT_PASSWORD;
-                        
+
             /usr/bin/mc mb myminio/hievents-public;
             /usr/bin/mc mb myminio/hievents-private;
-            
+
             /usr/bin/mc anonymous set public myminio/hievents-public;
-                        
+
             echo 'Buckets created and policies set.';
             exit 0;
             "
@@ -182,4 +183,10 @@ volumes:
     app-pgsql:
         driver: local
     app-minio:
+        driver: local
+    backend-storage:
+        driver: local
+    backend-cache:
+        driver: local
+    backend-vendor:
         driver: local

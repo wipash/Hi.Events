@@ -23,23 +23,31 @@ USER root
 
 RUN install-php-extensions intl
 
-RUN apk add --no-cache nodejs yarn nginx supervisor dos2unix
+RUN apk add --no-cache nodejs yarn nginx supervisor dos2unix \
+    && mkdir -p /var/lib/nginx/logs /var/lib/nginx/tmp/client_body /var/lib/nginx/tmp/proxy \
+    && mkdir -p /var/lib/nginx/tmp/fastcgi /var/lib/nginx/tmp/uwsgi /var/lib/nginx/tmp/scgi \
+    && chown -R www-data:www-data /var/lib/nginx /var/run
 
 COPY --from=node-frontend /app/frontend /app/frontend
 
 COPY ./backend /app/backend
 RUN mkdir -p /app/backend/bootstrap/cache \
-    && mkdir -p /app/backend/storage \
-    && chown -R www-data:www-data /app/backend \
-    && find /app/backend -type d -exec chmod 755 {} \; \
-    && find /app/backend -type f -exec chmod 644 {} \; \
-    && chmod -R 755 /app/backend/storage /app/backend/bootstrap/cache \
+    && mkdir -p /app/backend/storage/app/public \
+    && mkdir -p /app/backend/storage/framework/cache/data \
+    && mkdir -p /app/backend/storage/framework/sessions \
+    && mkdir -p /app/backend/storage/framework/testing \
+    && mkdir -p /app/backend/storage/framework/views \
+    && mkdir -p /app/backend/storage/logs \
     && composer install --working-dir=/app/backend \
         --ignore-platform-reqs \
         --no-interaction \
         --no-dev \
         --optimize-autoloader \
         --prefer-dist \
+    && chown -R www-data:www-data /app/backend \
+    && find /app/backend -type d -exec chmod 755 {} \; \
+    && find /app/backend -type f -exec chmod 644 {} \; \
+    && chmod -R 755 /app/backend/storage /app/backend/bootstrap/cache \
     && chmod -R 755 /app/backend/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer
 
 COPY ./docker/all-in-one/nginx/nginx.conf /etc/nginx/nginx.conf
@@ -48,7 +56,9 @@ COPY ./docker/all-in-one/supervisor/supervisord.conf /etc/supervisord.conf
 COPY ./docker/all-in-one/scripts/startup.sh /startup.sh
 RUN dos2unix /startup.sh && chmod +x /startup.sh
 
-EXPOSE 80
+USER www-data
+
+EXPOSE 8080
 
 WORKDIR /app
 

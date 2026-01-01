@@ -85,6 +85,7 @@ class MarkOrderAsPaidService
 
             $updatedOrder = $this->orderRepository
                 ->loadRelation(OrderItemDomainObject::class)
+                ->loadRelation(AttendeeDomainObject::class)
                 ->findById($orderId);
 
             // Update affiliate sales if this order has an affiliate

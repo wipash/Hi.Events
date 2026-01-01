@@ -2,6 +2,7 @@
 
 namespace HiEvents\Http\Actions\Orders;
 
+use HiEvents\DomainObjects\AttendeeDomainObject;
 use HiEvents\DomainObjects\EventDomainObject;
 use HiEvents\DomainObjects\EventSettingDomainObject;
 use HiEvents\DomainObjects\Generated\OrderDomainObjectAbstract;
@@ -37,6 +38,7 @@ class ResendOrderConfirmationAction extends BaseAction
 
         $order = $this->orderRepository
             ->loadRelation(OrderItemDomainObject::class)
+            ->loadRelation(AttendeeDomainObject::class)
             ->loadRelation(InvoiceDomainObject::class)
             ->findFirstWhere([
                 OrderDomainObjectAbstract::EVENT_ID => $eventId,

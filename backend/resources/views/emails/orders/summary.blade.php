@@ -13,7 +13,7 @@
 @if($order->isOrderAwaitingOfflinePayment() === false)
 
 <p>
-{{ __('Congratulations! Your order for :eventTitle on :eventDate at :eventTime was successful. Please find your order details below.', ['eventTitle' => $event->getTitle(), 'eventDate' => (new Carbon(DateHelper::convertFromUTC($event->getStartDate(), $event->getTimezone())))->format('F j, Y'), 'eventTime' => (new Carbon(DateHelper::convertFromUTC($event->getStartDate(), $event->getTimezone())))->format('g:i A')]) }}
+{{ __('Congratulations! Your order for :eventTitle was successful. Please find your order details below.', ['eventTitle' => $event->getTitle() ]) }}
 </p>
 
 @else
@@ -32,15 +32,6 @@
 
 @endif
 
-<p>
-
-# {{ __('Event Details') }}
-**{{ __('Event Name:') }}** {{ $event->getTitle() }}
-    <br>
-**{{ __('Date & Time:') }}** {{ (new Carbon(DateHelper::convertFromUTC($event->getStartDate(), $event->getTimezone())))->format('F j, Y') }} at {{ (new Carbon(DateHelper::convertFromUTC($event->getStartDate(), $event->getTimezone())))->format('g:i A') }}
-
-</p>
-
 @if($eventSettings->getPostCheckoutMessage() && $order->isOrderCompleted())
 <p>
 
@@ -54,6 +45,16 @@
 # {{ __('Order Summary') }}
 - **{{ __('Order Number:') }}** {{ $order->getPublicId() }}
 - **{{ __('Total Amount:') }}** {{ Currency::format($order->getTotalGross(), $event->getCurrency()) }}
+
+@if($order->getAttendees() && $order->getAttendees()->count() > 0)
+# {{ __('Tickets') }}
+@foreach($order->getAttendees() as $attendee)
+@php $orderItem = $order->getTicketOrderItems()?->first(fn($item) => $item->getProductPriceId() === $attendee->getProductPriceId()); @endphp
+@if($orderItem)
+- **{{ $orderItem->getItemName() }}** — {{ $attendee->getFirstName() }} {{ $attendee->getLastName() }}
+@endif
+@endforeach
+@endif
 
 <x-mail::button :url="$orderUrl">
     {{ __('View Order Summary & Tickets') }}

@@ -595,9 +595,6 @@ export const OrderSummaryAndProducts = () => {
 
                 {!!event?.settings?.post_checkout_message && <PostCheckoutMessage message={event.settings.post_checkout_message}/>}
 
-                <h1 className={classes.heading}>{t`Event Details`}</h1>
-                <EventDetails event={event}/>
-
                 {order.status === 'COMPLETED' && <AddToCalendarCTA event={event}/>}
 
                 {(order?.attendees && order.attendees.length > 0) && (

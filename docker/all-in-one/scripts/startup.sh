@@ -1,5 +1,21 @@
 #!/bin/sh
 
+echo "--- Preparing runtime directories ---"
+mkdir -p /var/lib/nginx/logs
+mkdir -p /var/lib/nginx/tmp/client_body
+mkdir -p /var/lib/nginx/tmp/proxy
+mkdir -p /var/lib/nginx/tmp/fastcgi
+mkdir -p /var/lib/nginx/tmp/uwsgi
+mkdir -p /var/lib/nginx/tmp/scgi
+
+echo "Initializing Laravel storage directories..."
+mkdir -p /app/backend/storage/app/public
+mkdir -p /app/backend/storage/framework/cache/data
+mkdir -p /app/backend/storage/framework/sessions
+mkdir -p /app/backend/storage/framework/testing
+mkdir -p /app/backend/storage/framework/views
+mkdir -p /app/backend/storage/logs
+
 cd /app/backend || exit 1
 
 if ! php artisan migrate --force; then
@@ -18,7 +34,5 @@ php artisan view:clear
 
 php artisan config:cache
 php artisan route:cache
-
-php artisan storage:link
 
 exec /usr/bin/supervisord -c /etc/supervisord.conf

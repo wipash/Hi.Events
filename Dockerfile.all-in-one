@@ -48,7 +48,8 @@ RUN mkdir -p /app/backend/bootstrap/cache \
     && find /app/backend -type d -exec chmod 755 {} \; \
     && find /app/backend -type f -exec chmod 644 {} \; \
     && chmod -R 755 /app/backend/storage /app/backend/bootstrap/cache \
-    && chmod -R 755 /app/backend/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer
+    && chmod -R 755 /app/backend/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer \
+    && ln -sf /app/backend/storage/app/public /app/backend/public/storage
 
 COPY ./docker/all-in-one/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/all-in-one/supervisor/supervisord.conf /etc/supervisord.conf

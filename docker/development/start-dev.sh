@@ -47,6 +47,21 @@ case "$CERTS_FLAG" in
         ;;
 esac
 
+if [ ! -f ./../../backend/.env ]; then
+    echo -e "${GREEN}Creating backend .env file...${NC}"
+    cp ./../../backend/.env.example ./../../backend/.env
+fi
+
+if [ ! -f ./../../frontend/.env ]; then
+    echo -e "${GREEN}Creating frontend .env file...${NC}"
+    cp ./../../frontend/.env.example ./../../frontend/.env
+fi
+
+if [ ! -L ./../../backend/public/storage ]; then
+    echo -e "${GREEN}Creating storage symlink...${NC}"
+    ln -s ../storage/app/public ./../../backend/public/storage
+fi
+
 $COMPOSE_CMD up -d
 
 if [ $? -ne 0 ]; then
@@ -75,18 +90,8 @@ done
 
 echo -e "\n${GREEN}Database is ready. Proceeding with migrations...${NC}"
 
-if [ ! -f ./../../backend/.env ]; then
-    $COMPOSE_CMD exec backend cp .env.example .env
-fi
-
-if [ ! -f ./../../frontend/.env ]; then
-    $COMPOSE_CMD exec frontend cp .env.example .env
-fi
-
 $COMPOSE_CMD exec backend php artisan key:generate
 $COMPOSE_CMD exec backend php artisan migrate
-$COMPOSE_CMD exec backend chmod -R 775 /var/www/html/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer
-$COMPOSE_CMD exec backend php artisan storage:link
 
 if [ $? -ne 0 ]; then
     echo -e "${RED}Migrations failed.${NC}"

@@ -13,12 +13,21 @@ RUN install-php-extensions intl imagick
 
 COPY --chown=www-data:www-data . .
 
-RUN chmod -R 755 storage  \
+# Create storage directory structure
+RUN mkdir -p storage/app/public \
+    && mkdir -p storage/framework/cache/data \
+    && mkdir -p storage/framework/sessions \
+    && mkdir -p storage/framework/testing \
+    && mkdir -p storage/framework/views \
+    && mkdir -p storage/logs \
     && mkdir -p bootstrap/cache \
-    && chmod -R 775 bootstrap/cache \
-    && mkdir -p /var/lib/nginx/tmp \
-    && chown -R www-data:www-data /var/lib/nginx \
-    && chmod -R 755 /var/lib/nginx
+    && chmod -R 755 storage \
+    && chmod -R 775 bootstrap/cache
+
+# Create nginx directories
+RUN mkdir -p /var/lib/nginx/logs /var/lib/nginx/tmp/client_body /var/lib/nginx/tmp/proxy \
+    && mkdir -p /var/lib/nginx/tmp/fastcgi /var/lib/nginx/tmp/uwsgi /var/lib/nginx/tmp/scgi \
+    && chown -R www-data:www-data /var/lib/nginx
 
 RUN composer install \
     --ignore-platform-reqs \
@@ -30,5 +39,7 @@ RUN composer install \
 RUN mkdir -p /var/www/html/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer \
     && chmod -R 775 /var/www/html/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer \
     && chown -R www-data:www-data /var/www/html/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer
+
+USER www-data
 
 EXPOSE 8080

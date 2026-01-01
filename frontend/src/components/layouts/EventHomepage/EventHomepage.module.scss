@@ -181,17 +181,6 @@ $transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.heroGradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.3) 40%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
 
 .statusBadges {
   position: absolute;

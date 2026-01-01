@@ -7,7 +7,6 @@ import {ActionIcon, Button, Group, Modal, Tooltip} from "@mantine/core";
 import {IconArrowLeft, IconPrinter, IconReceipt} from "@tabler/icons-react";
 import {eventHomepagePath, eventHomepageUrl} from "../../../utilites/urlHelper.ts";
 import {ShareComponent} from "../../common/ShareIcon";
-import {AddToEventCalendarButton} from "../../common/AddEventToCalendarButton";
 import {ProgressStepper} from "../../common/ProgressStepper";
 import {useMediaQuery} from "@mantine/hooks";
 import React, {useEffect, useState} from "react";
@@ -201,8 +200,6 @@ const Checkout = () => {
                                                 url={eventHomepageUrl(event)}
                                                 hideShareButtonText={isMobile}
                                             />
-
-                                            <AddToEventCalendarButton event={event}/>
 
                                             {orderHasAttendees && (
                                                 <Tooltip label={t`Print Tickets`}>

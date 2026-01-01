@@ -306,23 +306,6 @@ const EventHomepage = ({...loaderData}: EventHomepageProps) => {
                                     <h1 className={classes.eventTitle}>{event.title}</h1>
 
                                     <div className={classes.eventMeta}>
-                                        {/* Date/Time */}
-                                        <div className={classes.metaItem}>
-                                            <div className={classes.metaIconBox}>
-                                                <IconCalendar/>
-                                            </div>
-                                            <div className={classes.metaContent}>
-                                                <div className={classes.metaPrimary}>
-                                                    <EventDateRange event={event}/>
-                                                </div>
-                                            </div>
-                                            <CalendarOptionsPopover event={event}>
-                                                <button className={classes.addToCalendarButton}>
-                                                    <IconCalendarPlus/>
-                                                    {t`Add to Calendar`}
-                                                </button>
-                                            </CalendarOptionsPopover>
-                                        </div>
 
                                         {/* Event Ended */}
                                         {event.end_date && isDateInPast(event.end_date) && (

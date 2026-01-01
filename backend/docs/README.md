@@ -143,7 +143,7 @@ HTTP layer patterns and API design.
 ```bash
 # Backend (run in Docker container)
 cd docker/development
-docker compose -f docker-compose.dev.yml exec backend bash
+docker compose exec backend bash
 
 # Generate domain objects
 php artisan generate-domain-objects

@@ -69,13 +69,13 @@ ssl_certificate_key /etc/nginx/certs/localhost.pem.key;
 ### 3. Start Docker services
 
 ```bash
-docker-compose -f docker-compose.dev.yml up -d
+docker-compose up -d
 ```
 
 ### 4. Install backend dependencies
 
 ```bash
-docker-compose -f docker-compose.dev.yml exec -T backend composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --prefer-dist
+docker-compose exec -T backend composer install --ignore-platform-reqs --no-interaction --optimize-autoloader --prefer-dist
 ```
 
 ### 5. Wait for the database
@@ -83,23 +83,23 @@ docker-compose -f docker-compose.dev.yml exec -T backend composer install --igno
 Keep checking logs until you see "ready to accept connections":
 
 ```bash
-docker-compose -f docker-compose.dev.yml logs pgsql
+docker-compose logs pgsql
 ```
 
 ### 6. Create environment files (if missing)
 
 ```bash
-docker-compose -f docker-compose.dev.yml exec backend cp .env.example .env
-docker-compose -f docker-compose.dev.yml exec frontend cp .env.example .env
+docker-compose exec backend cp .env.example .env
+docker-compose exec frontend cp .env.example .env
 ```
 
 ### 7. Laravel setup
 
 ```bash
-docker-compose -f docker-compose.dev.yml exec backend php artisan key:generate
-docker-compose -f docker-compose.dev.yml exec backend php artisan migrate
-docker-compose -f docker-compose.dev.yml exec backend chmod -R 775 /var/www/html/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer
-docker-compose -f docker-compose.dev.yml exec backend php artisan storage:link
+docker-compose exec backend php artisan key:generate
+docker-compose exec backend php artisan migrate
+docker-compose exec backend chmod -R 775 /var/www/html/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer
+docker-compose exec backend php artisan storage:link
 ```
 
 ### 8. Open the app

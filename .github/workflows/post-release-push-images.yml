@@ -57,6 +57,7 @@ jobs:
           tags: ${{ steps.meta_all_in_one.outputs.tags }}
           labels: ${{ steps.meta_all_in_one.outputs.labels }}
 
+
       # Backend Image Steps
       - name: Extract metadata (tags, labels) for Backend Docker
         id: meta_backend

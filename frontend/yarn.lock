@@ -1681,10 +1681,10 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-text-align/-/extension-text-align-2.26.3.tgz"
   integrity sha512-5PU2vMUKt53EVdxFqiuPockKKGeZxipwEq6fT5OZeqz3TUWiF61bO/xkwlXzfWSNm1ZkEmrkebtaeKrH4Wu22g==
 
-"@tiptap/extension-text-style@^2.12.0", "@tiptap/extension-text-style@^2.26.3":
-  version "2.26.3"
-  resolved "https://registry.npmjs.org/@tiptap/extension-text-style/-/extension-text-style-2.26.3.tgz"
-  integrity sha512-B+t6k41xtmlIxyi0r+g8MAShGMCK6kmz8EdxoLAUVrlCxYWVk6qvzoojZbjQKlb2sE+idIo4X5yCcKpdkxFe0w==
+"@tiptap/extension-text-style@^2.26.3", "@tiptap/extension-text-style@^2.27.2":
+  version "2.27.2"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-text-style/-/extension-text-style-2.27.2.tgz#5f27d512e8421b5160be37aab17c47dde88a8bea"
+  integrity sha512-Omk+uxjJLyEY69KStpCw5fA9asvV+MGcAX2HOxyISDFoLaL49TMrNjhGAuz09P1L1b0KGXo4ml7Q3v/Lfy4WPA==
 
 "@tiptap/extension-text@^2.26.3":
   version "2.26.3"

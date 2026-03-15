@@ -1646,10 +1646,10 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-text/-/extension-text-2.26.3.tgz"
   integrity sha512-sGRbX96ss4jQeKw9d0iphuAWja8Dv4w4ryTDKfxD7Lizx3UaIxQB/y+Wna89tM3kfbi/qJcrD3AF7NJgfc/tEA==
 
-"@tiptap/extension-underline@^2.12.0":
-  version "2.26.3"
-  resolved "https://registry.npmjs.org/@tiptap/extension-underline/-/extension-underline-2.26.3.tgz"
-  integrity sha512-FXQUiHjvKDIpU9Bg+fV7UqQnEjhGvVQUnrf9VOI1/9hm+GWWxAfV2asRiZgV6jeBvNJWYzUGzvQUN6vFzmVbdw==
+"@tiptap/extension-underline@^2.27.2":
+  version "2.27.2"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-underline/-/extension-underline-2.27.2.tgz#10dd1cbaf3dcd1276b2b0988518f19736f394c22"
+  integrity sha512-gPOsbAcw1S07ezpAISwoO8f0RxpjcSH7VsHEFDVuXm4ODE32nhvSinvHQjv2icRLOXev+bnA7oIBu7Oy859gWQ==
 
 "@tiptap/pm@^2.26.3", "@tiptap/pm@^2.7.0":
   version "2.26.3"
